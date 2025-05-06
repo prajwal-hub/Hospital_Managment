@@ -1,0 +1,154 @@
+{% extends 'hospital/admin_base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  :root {
+    --primary-color: #4a6cf7;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #fd7e14;
+    --info-color: #17a2b8;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    --white: #ffffff;
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --transition: all 0.3s ease;
+  }
+
+  .dashboard-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .dashboard-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    border-left: 4px solid;
+  }
+
+  .dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  }
+
+  .dashboard-card.doctor-record {
+    border-left-color: var(--info-color);
+  }
+
+  .dashboard-card.register-doctor {
+    border-left-color: var(--success-color);
+  }
+
+  .dashboard-card.approve-doctor {
+    border-left-color: var(--warning-color);
+  }
+
+  .dashboard-card.doctor-specialization {
+    border-left-color: var(--primary-color);
+  }
+
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 1rem;
+  }
+
+  .card-title a {
+    color: inherit;
+    text-decoration: none;
+    transition: var(--transition);
+  }
+
+  .card-title a:hover {
+    color: var(--primary-color);
+  }
+
+  .card-icon {
+    font-size: 2.5rem;
+    margin-top: auto;
+    align-self: flex-end;
+    color: rgba(0, 0, 0, 0.1);
+  }
+
+  .doctor-record .card-icon {
+    color: var(--info-color);
+  }
+
+  .register-doctor .card-icon {
+    color: var(--success-color);
+  }
+
+  .approve-doctor .card-icon {
+    color: var(--warning-color);
+  }
+
+  .doctor-specialization .card-icon {
+    color: var(--primary-color);
+  }
+
+  @media (max-width: 768px) {
+    .cards-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="dashboard-container">
+  <div class="cards-grid">
+    <!-- Doctor Record Card -->
+    <div class="dashboard-card doctor-record">
+      <div class="card-content">
+        <h3 class="card-title"><a href="/admin-view-doctor">Doctor Records</a></h3>
+        <i class="fas fa-user-md card-icon"></i>
+      </div>
+    </div>
+
+    <!-- Register Doctor Card -->
+    <div class="dashboard-card register-doctor">
+      <div class="card-content">
+        <h3 class="card-title"><a href="/admin-add-doctor">Register Doctor</a></h3>
+        <i class="fas fa-user-plus card-icon"></i>
+      </div>
+    </div>
+
+    <!-- Approve Doctor Card -->
+    <div class="dashboard-card approve-doctor">
+      <div class="card-content">
+        <h3 class="card-title"><a href="/admin-approve-doctor">Approve Doctors</a></h3>
+        <i class="fas fa-check-circle card-icon"></i>
+      </div>
+    </div>
+
+    <!-- Doctor Specialization Card -->
+    <div class="dashboard-card doctor-specialization">
+      <div class="card-content">
+        <h3 class="card-title"><a href="/admin-view-doctor-specialisation">Doctor Specializations</a></h3>
+        <i class="fas fa-stethoscope card-icon"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

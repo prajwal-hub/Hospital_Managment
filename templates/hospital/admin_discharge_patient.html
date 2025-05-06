@@ -1,0 +1,179 @@
+{% extends 'hospital/admin_base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  :root {
+    --primary-color: #4a6cf7;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #fd7e14;
+    --info-color: #17a2b8;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    --white: #ffffff;
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --transition: all 0.3s ease;
+  }
+
+  .dashboard-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  }
+
+  .discharge-card {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    transition: var(--transition);
+  }
+
+  .discharge-card:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .card-header {
+    padding: 1.25rem 1.5rem;
+    background: linear-gradient(135deg, var(--primary-color), #6a11cb);
+    color: var(--white);
+  }
+
+  .card-header h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    margin: 0;
+  }
+
+  .discharge-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .discharge-table thead {
+    background-color: #f8f9fa;
+  }
+
+  .discharge-table th {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .discharge-table td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    font-size: 0.95rem;
+    color: var(--dark-color);
+    vertical-align: middle;
+  }
+
+  .discharge-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .discharge-table tr:hover td {
+    background-color: rgba(74, 108, 247, 0.03);
+  }
+
+  .discharge-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    background-color: var(--danger-color);
+    color: var(--white);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: var(--transition);
+    text-decoration: none;
+  }
+
+  .discharge-btn:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+  }
+
+  .discharge-icon {
+    margin-right: 0.5rem;
+  }
+
+  .symptoms-cell {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media (max-width: 768px) {
+    .dashboard-container {
+      padding: 0 1rem;
+    }
+    
+    .discharge-table th,
+    .discharge-table td {
+      padding: 0.75rem;
+    }
+    
+    .discharge-btn {
+      padding: 0.5rem;
+    }
+    
+    .discharge-icon {
+      margin-right: 0;
+    }
+    
+    .discharge-btn span {
+      display: none;
+    }
+  }
+</style>
+
+<div class="dashboard-container">
+  <div class="discharge-card">
+    <div class="card-header">
+      <h3>Patients for Discharge</h3>
+    </div>
+    <div class="table-responsive">
+      <table class="discharge-table">
+        <thead>
+          <tr>
+            <th>Patient Name</th>
+            <th>Symptoms</th>
+            <th>Contact</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in patients %}
+          <tr>
+            <td>{{p.get_name}}</td>
+            <td class="symptoms-cell" title="{{p.symptoms}}">{{p.symptoms}}</td>
+            <td>{{p.mobile}}</td>
+            <td>
+              <a href="{% url 'discharge-patient' p.id %}" class="discharge-btn">
+                <i class="fas fa-sign-out-alt discharge-icon"></i>
+                <span>Discharge</span>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

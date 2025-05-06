@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Admin Dashboard</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #4a6cf7;
+            --secondary-color: #6c757d;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #fd7e14;
+            --info-color: #17a2b8;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --white: #ffffff;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fb;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+        }
+        
+        .stat-card.doctor::before {
+            background: var(--info-color);
+        }
+        
+        .stat-card.patient::before {
+            background: var(--success-color);
+        }
+        
+        .stat-card.appointment::before {
+            background: var(--primary-color);
+        }
+        
+        .stat-content {
+            flex: 1;
+        }
+        
+        .stat-title {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-subtext {
+            font-size: 0.85rem;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .stat-subtext .badge {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+            padding: 0.25rem 0.5rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-left: 0.5rem;
+        }
+        
+        .stat-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-left: 1rem;
+        }
+        
+        .stat-icon.doctor {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info-color);
+        }
+        
+        .stat-icon.patient {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+        }
+        
+        .stat-icon.appointment {
+            background: rgba(74, 108, 247, 0.1);
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-value {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="stats-container">
+            <!-- Doctor Card -->
+            <div class="stat-card doctor">
+                <div class="stat-content">
+                    <div class="stat-title">TOTAL DOCTORS</div>
+                    <div class="stat-value">{{doctorcount}}</div>
+                    <div class="stat-subtext">
+                        Pending Approvals
+                        <span class="badge">{{pendingdoctorcount}}</span>
+                    </div>
+                </div>
+                <div class="stat-icon doctor">
+                    <i class="fas fa-user-md"></i>
+                </div>
+            </div>
+            
+            <!-- Patient Card -->
+            <div class="stat-card patient">
+                <div class="stat-content">
+                    <div class="stat-title">TOTAL PATIENTS</div>
+                    <div class="stat-value">{{patientcount}}</div>
+                    <div class="stat-subtext">
+                        Admission Requests
+                        <span class="badge">{{pendingpatientcount}}</span>
+                    </div>
+                </div>
+                <div class="stat-icon patient">
+                    <i class="fas fa-user-injured"></i>
+                </div>
+            </div>
+            
+            <!-- Appointment Card -->
+            <div class="stat-card appointment">
+                <div class="stat-content">
+                    <div class="stat-title">TOTAL APPOINTMENTS</div>
+                    <div class="stat-value">{{appointmentcount}}</div>
+                    <div class="stat-subtext">
+                        Pending Approvals
+                        <span class="badge">{{pendingappointmentcount}}</span>
+                    </div>
+                </div>
+                <div class="stat-icon appointment">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- You can add more sections here for charts, recent activities, etc. -->
+    </div>
+</body>
+</html>

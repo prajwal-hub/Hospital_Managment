@@ -1,0 +1,262 @@
+{% extends 'hospital/patient_base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .invoice-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        font-family: 'Poppins', sans-serif;
+        color: #1e293b;
+    }
+
+    .invoice-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding-bottom: 1.5rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .invoice-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #2563eb;
+        margin: 0;
+    }
+
+    .invoice-meta {
+        text-align: right;
+        color: #64748b;
+    }
+
+    .invoice-section {
+        margin-bottom: 2rem;
+    }
+
+    .patient-info, .doctor-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+    }
+
+    .info-card {
+        flex: 1;
+        padding: 1rem;
+        background: #f8fafc;
+        border-radius: 8px;
+        margin: 0 0.5rem;
+    }
+
+    .info-card h3 {
+        font-size: 1rem;
+        color: #64748b;
+        margin-bottom: 0.5rem;
+    }
+
+    .info-card p {
+        margin: 0.25rem 0;
+        font-weight: 500;
+    }
+
+    .symptoms-card {
+        padding: 1rem;
+        background: #f8fafc;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+    }
+
+    .invoice-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .invoice-table thead th {
+        background: #f1f5f9;
+        padding: 0.75rem 1rem;
+        text-align: left;
+        font-weight: 600;
+        color: #64748b;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
+    }
+
+    .invoice-table tbody td {
+        padding: 1rem;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .invoice-total {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1rem;
+    }
+
+    .total-amount {
+        background: #f1f5f9;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+
+    .download-btn {
+        display: block;
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .btn-download {
+        background: #2563eb;
+        color: white;
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .btn-download:hover {
+        background: #1e40af;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
+    }
+
+    .btn-download i {
+        margin-right: 0.5rem;
+    }
+
+    .not-discharged {
+        text-align: center;
+        padding: 3rem;
+        color: #64748b;
+    }
+
+    .not-discharged i {
+        font-size: 3rem;
+        color: #cbd5e1;
+        margin-bottom: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .invoice-container {
+            padding: 1rem;
+            margin: 1rem;
+        }
+        
+        .invoice-header {
+            flex-direction: column;
+        }
+        
+        .invoice-meta {
+            text-align: left;
+            margin-top: 1rem;
+        }
+        
+        .patient-info, .doctor-info {
+            flex-direction: column;
+        }
+        
+        .info-card {
+            margin: 0.5rem 0;
+        }
+    }
+</style>
+
+<br /><br /><br />
+
+{% if is_discharged %}
+<div class="invoice-container">
+    <div class="invoice-header">
+        <h1 class="invoice-title">
+            <i class="fas fa-file-invoice me-2"></i>Discharge Summary
+        </h1>
+        <div class="invoice-meta">
+            <p><strong>Admit Date:</strong> {{admitDate}}</p>
+            <p><strong>Release Date:</strong> {{releaseDate}}</p>
+            <p><strong>Days Spent:</strong> {{daySpent}}</p>
+        </div>
+    </div>
+
+    <div class="invoice-section">
+        <div class="patient-info">
+            <div class="info-card">
+                <h3>PATIENT INFORMATION</h3>
+                <p><strong>Name:</strong> {{patientName}}</p>
+                <p><strong>Mobile:</strong> {{mobile}}</p>
+                <p><strong>Address:</strong> {{address}}</p>
+            </div>
+            <div class="info-card">
+                <h3>ATTENDING DOCTOR</h3>
+                <p>{{assignedDoctorName}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="invoice-section">
+        <div class="symptoms-card">
+            <h3>DIAGNOSIS & SYMPTOMS</h3>
+            <p>{{symptoms}}</p>
+        </div>
+    </div>
+
+    <div class="invoice-section">
+        <table class="invoice-table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Room Charge ({{daySpent}} days)</td>
+                    <td>{{roomCharge}}</td>
+                </tr>
+                <tr>
+                    <td>Doctor Fee</td>
+                    <td>{{doctorFee}}</td>
+                </tr>
+                <tr>
+                    <td>Medicine Cost</td>
+                    <td>{{medicineCost}}</td>
+                </tr>
+                <tr>
+                    <td>Other Charges</td>
+                    <td>{{OtherCharge}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="invoice-total">
+            <div class="total-amount">
+                Total: {{total}}
+            </div>
+        </div>
+    </div>
+
+    <div class="download-btn">
+        <a href="{% url 'download-pdf' patientId %}" class="btn-download">
+            <i class="fas fa-download me-2"></i>Download Invoice
+        </a>
+    </div>
+</div>
+{% else %}
+<div class="not-discharged">
+    <i class="fas fa-user-clock"></i>
+    <h3>You Are Not Discharged Yet</h3>
+    <p>Your treatment is still ongoing</p>
+    <p>You will be able to download your discharge summary once you're discharged</p>
+</div>
+{% endif %}
+
+<br /><br /><br />
+{% endblock content %}

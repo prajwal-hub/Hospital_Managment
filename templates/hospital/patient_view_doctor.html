@@ -1,0 +1,258 @@
+{% extends 'hospital/patient_base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .doctor-container {
+       max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        margin: 2rem auto;
+        left: auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .search-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 2rem;
+    }
+
+    .search-form {
+        display: flex;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .search-input {
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px 0 0 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+        outline: none;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .search-btn {
+        background: #2563eb;
+        color: white;
+        border: none;
+        padding: 0 1.5rem;
+        border-radius: 0 8px 8px 0;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .search-btn:hover {
+        background: #1e40af;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .section-title i {
+        margin-right: 0.75rem;
+        color: #2563eb;
+    }
+
+    .doctor-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 0.75rem;
+    }
+
+    .doctor-table thead th {
+        background-color: #f1f5f9;
+        color: #64748b;
+        font-weight: 600;
+        padding: 1rem;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
+        border: none;
+    }
+
+    .doctor-table tbody tr {
+        background-color: white;
+        transition: all 0.2s ease;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    }
+
+    .doctor-table tbody tr:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .doctor-table td {
+        padding: 1rem;
+        vertical-align: middle;
+        border: none;
+        border-top: 1px solid #f1f5f9;
+    }
+
+    .doctor-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #e2e8f0;
+    }
+
+    .doctor-name {
+        font-weight: 500;
+        color: #1e293b;
+    }
+
+    .doctor-department {
+        color: #64748b;
+        font-size: 0.875rem;
+    }
+
+    .no-doctors {
+        text-align: center;
+        padding: 3rem;
+        color: #64748b;
+    }
+
+    .no-doctors i {
+        font-size: 3rem;
+        color: #cbd5e1;
+        margin-bottom: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .doctor-container {
+            padding: 1rem;
+            margin: 1rem;
+        }
+        
+        .search-container {
+            justify-content: center;
+        }
+        
+        .search-form {
+            max-width: 100%;
+        }
+        
+        .doctor-table thead {
+            display: none;
+        }
+        
+        .doctor-table tbody tr {
+            display: block;
+            margin-bottom: 1rem;
+        }
+        
+        .doctor-table td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            border-top: none;
+        }
+        
+        .doctor-table td::before {
+            content: attr(data-label);
+            font-weight: 600;
+            color: #64748b;
+            margin-right: 1rem;
+            flex: 1;
+        }
+        
+        .doctor-table td span {
+            flex: 2;
+            text-align: right;
+        }
+        
+        .doctor-avatar {
+            width: 40px;
+            height: 40px;
+        }
+    }
+</style>
+
+<div class="doctor-container">
+    <div class="search-container">
+        <form action="/searchdoctor" method="get" class="search-form">
+            <input 
+                type="search" 
+                class="search-input" 
+                placeholder="Search doctors..." 
+                name="query" 
+                id="query" 
+                aria-label="Search doctors"
+            >
+            <button type="submit" class="search-btn">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+    </div>
+
+    {% if doctors %}
+        <h2 class="section-title">
+            <i class="fas fa-user-md"></i>Available Doctors
+        </h2>
+        
+        <div class="table-responsive">
+            <table class="doctor-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Profile</th>
+                        <th>Contact</th>
+                        <th>Address</th>
+                        <th>Specialization</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for d in doctors %}
+                    <tr>
+                        <td data-label="Name">
+                            <span class="doctor-name">{{d.get_name}}</span>
+                        </td>
+                        <td data-label="Profile">
+                            <img 
+                                src="{% static d.profile_pic.url %}" 
+                                alt="Doctor Profile" 
+                                class="doctor-avatar"
+                            >
+                        </td>
+                        <td data-label="Contact">
+                            {{d.mobile}}
+                        </td>
+                        <td data-label="Address">
+                            {{d.address}}
+                        </td>
+                        <td data-label="Specialization">
+                            <span class="doctor-department">{{d.department}}</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="no-doctors">
+            <i class="fas fa-user-md"></i>
+            <h4>No Doctors Found</h4>
+            <p>We couldn't find any doctors matching your search</p>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock content %}

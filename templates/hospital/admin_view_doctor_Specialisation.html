@@ -1,0 +1,156 @@
+{% extends 'hospital/admin_base.html' %}
+{% block content %}
+
+<style>
+  :root {
+    --primary-color: #4a6cf7;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #fd7e14;
+    --info-color: #17a2b8;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    --white: #ffffff;
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --transition: all 0.3s ease;
+  }
+
+  .dashboard-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  }
+
+  .specialization-card {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    transition: var(--transition);
+  }
+
+  .specialization-card:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .card-header {
+    padding: 1.25rem 1.5rem;
+    background: linear-gradient(135deg, var(--primary-color), #6a11cb);
+    color: var(--white);
+  }
+
+  .card-header h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    margin: 0;
+  }
+
+  .specialization-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .specialization-table thead {
+    background-color: #f8f9fa;
+  }
+
+  .specialization-table th {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .specialization-table td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    font-size: 0.95rem;
+    color: var(--dark-color);
+  }
+
+  .specialization-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .specialization-table tr:hover td {
+    background-color: rgba(74, 108, 247, 0.03);
+  }
+
+  .doctor-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .doctor-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(74, 108, 247, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+  }
+
+  .doctor-avatar i {
+    font-size: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .dashboard-container {
+      padding: 0 1rem;
+    }
+    
+    .specialization-table th,
+    .specialization-table td {
+      padding: 0.75rem;
+    }
+  }
+</style>
+
+<div class="dashboard-container">
+  <div class="specialization-card">
+    <div class="card-header">
+      <h3>Department & Doctors</h3>
+    </div>
+    <div class="table-responsive">
+      <table class="specialization-table">
+        <thead>
+          <tr>
+            <th>Department</th>
+            <th>Doctor</th>
+            <th>Contact</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for d in doctors %}
+          <tr>
+            <td>{{d.department}}</td>
+            <td>
+              <div class="doctor-info">
+                <div class="doctor-avatar">
+                  <i class="fas fa-user-md"></i>
+                </div>
+                <span>{{d.get_name}}</span>
+              </div>
+            </td>
+            <td>{{d.mobile}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

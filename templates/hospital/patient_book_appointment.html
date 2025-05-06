@@ -1,0 +1,194 @@
+{% extends 'hospital/patient_base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<head>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --primary-dark: #1e40af;
+      --primary-light: #93c5fd;
+      --accent-color: #3b82f6;
+      --text-light: #f8fafc;
+      --text-dark: #1e293b;
+      --bg-light: #f1f5f9;
+      --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg-light);
+    }
+    
+    .appointment-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: calc(100vh - 100px);
+      padding: 2rem;
+    }
+    
+    .appointment-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+      width: 100%;
+      max-width: 600px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+    
+    .appointment-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .appointment-header {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      color: var(--text-light);
+      padding: 1.5rem;
+      text-align: center;
+    }
+    
+    .appointment-title {
+      font-weight: 600;
+      font-size: 1.5rem;
+      margin: 0;
+    }
+    
+    .appointment-body {
+      padding: 2rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-dark);
+    }
+    
+    .form-control {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .form-control:focus {
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    
+    textarea.form-control {
+      min-height: 120px;
+      resize: vertical;
+    }
+    
+    .btn-book {
+      background-color: var(--primary-color);
+      border: none;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+      border-radius: 8px;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-book:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    
+    /* Alert message styling */
+    .alert-message {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      max-width: 400px;
+      display: none;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 576px) {
+      .appointment-body {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<div class="appointment-container">
+  <div class="appointment-card">
+    <div class="appointment-header">
+      <h1 class="appointment-title">
+        <i class="fas fa-calendar-plus me-2"></i> Book Appointment
+      </h1>
+    </div>
+    
+    <div class="appointment-body">
+      <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+          <label class="form-label" for="description">Appointment Description</label>
+          {% render_field appointmentForm.description class="form-control" placeholder="Describe your symptoms or reason for appointment" id="description" %}
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label" for="doctor">Select Doctor</label>
+          {% render_field appointmentForm.doctorId class="form-control" id="doctor" %}
+        </div>
+        
+        <button type="submit" class="btn btn-book mt-3">
+          <i class="fas fa-bookmark me-2"></i> Book Appointment
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Alert message display -->
+{% if message %}
+<div class="alert alert-success alert-message alert-dismissible fade show" role="alert">
+  {{ message }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<script>
+  // Show alert message
+  document.addEventListener('DOMContentLoaded', function() {
+    var alert = document.querySelector('.alert-message');
+    alert.style.display = 'block';
+    
+    // Auto-hide after 5 seconds
+    setTimeout(function() {
+      var bsAlert = new bootstrap.Alert(alert);
+      bsAlert.close();
+    }, 5000);
+  });
+</script>
+{% endif %}
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+{% endblock content %}

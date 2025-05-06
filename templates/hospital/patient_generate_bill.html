@@ -1,0 +1,247 @@
+{% extends 'hospital/admin_base.html' %}
+{% load static %}
+{% block content %}
+
+<head>
+  <meta charset="utf-8" />
+  <title>Hospital Invoice</title>
+  <style>
+    .invoice-container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 30px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .invoice-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .invoice-title h1 {
+      color: #2c3e50;
+      font-size: 28px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .invoice-date {
+      text-align: right;
+      color: #7f8c8d;
+    }
+
+    .invoice-date p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+
+    .patient-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+
+    .info-card {
+      flex: 1;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      margin-right: 15px;
+    }
+
+    .info-card:last-child {
+      margin-right: 0;
+    }
+
+    .info-card h3 {
+      color: #2c3e50;
+      font-size: 18px;
+      margin-top: 0;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    .info-card p {
+      margin: 8px 0;
+      color: #34495e;
+      font-size: 14px;
+    }
+
+    .invoice-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+
+    .invoice-table th {
+      background-color: #3498db;
+      color: white;
+      padding: 12px 15px;
+      text-align: left;
+      font-weight: 500;
+    }
+
+    .invoice-table td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #eee;
+      color: #34495e;
+    }
+
+    .invoice-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .invoice-table tr.item-row:hover {
+      background-color: #f8f9fa;
+    }
+
+    .total-row {
+      font-weight: 600;
+      background-color: #f8f9fa;
+    }
+
+    .total-row td {
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
+
+    .total-amount {
+      color: #e74c3c;
+      font-size: 18px;
+    }
+
+    .download-btn {
+      display: block;
+      width: 200px;
+      margin: 0 auto;
+      padding: 12px;
+      background-color: #e74c3c;
+      color: white;
+      text-align: center;
+      border-radius: 5px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .download-btn:hover {
+      background-color: #c0392b;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+    }
+
+    .section-title {
+      color: #2c3e50;
+      font-size: 20px;
+      margin: 25px 0 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #3498db;
+    }
+
+    .symptoms-card {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+    }
+
+    @media (max-width: 768px) {
+      .patient-info {
+        flex-direction: column;
+      }
+      
+      .info-card {
+        margin-right: 0;
+        margin-bottom: 15px;
+      }
+      
+      .invoice-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .invoice-date {
+        text-align: left;
+        margin-top: 15px;
+      }
+    }
+  </style>
+</head>
+
+<div class="invoice-container">
+  <div class="invoice-header">
+    <div class="invoice-title">
+      <h1>Hospital Invoice</h1>
+    </div>
+    <div class="invoice-date">
+      <p><strong>Admit Date:</strong> {{admitDate}}</p>
+      <p><strong>Release Date:</strong> {{todayDate}}</p>
+      <p><strong>Days Spent:</strong> {{day}}</p>
+    </div>
+  </div>
+
+  <div class="patient-info">
+    <div class="info-card">
+      <h3>Patient Information</h3>
+      <p><strong>Name:</strong> {{name}}</p>
+      <p><strong>Mobile:</strong> {{mobile}}</p>
+      <p><strong>Address:</strong> {{address}}</p>
+    </div>
+    
+    <div class="info-card">
+      <h3>Doctor Information</h3>
+      <p><strong>Doctor Name:</strong> {{assignedDoctorName}}</p>
+    </div>
+  </div>
+
+  <h3 class="section-title">Medical Information</h3>
+  <div class="symptoms-card">
+    <p><strong>Disease and Symptoms:</strong> {{symptoms}}</p>
+  </div>
+
+  <h3 class="section-title">Billing Details</h3>
+  <table class="invoice-table">
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="item-row">
+        <td>Room Charge ({{day}} days)</td>
+        <td>{{roomCharge}}</td>
+      </tr>
+      <tr class="item-row">
+        <td>Doctor Fee</td>
+        <td>{{doctorFee}}</td>
+      </tr>
+      <tr class="item-row">
+        <td>Medicine Cost</td>
+        <td>{{medicineCost}}</td>
+      </tr>
+      <tr class="item-row">
+        <td>Other Charges</td>
+        <td>{{OtherCharge}}</td>
+      </tr>
+      <tr class="total-row">
+        <td><strong>Total Amount</strong></td>
+        <td class="total-amount">{{total}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <a href="{% url 'download-pdf' patientId %}" class="download-btn">
+    Download Invoice
+  </a>
+</div>
+
+{% endblock content %}

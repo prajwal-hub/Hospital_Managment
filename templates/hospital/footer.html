@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --secondary-color: #1e40af;
+      --accent-color: #3b82f6;
+      --text-light: #f8fafc;
+      --text-dark: #1e293b;
+      --bg-dark: #0f172a;
+      --bg-light: #1e293b;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    footer {
+      background: linear-gradient(135deg, var(--bg-dark), var(--bg-light));
+      color: var(--text-light);
+      padding: 2.5rem 0;
+      margin: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #3b82f6, #ec4899, #f59e0b);
+    }
+    
+    .social-container {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    
+    .social-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      color: white;
+      font-size: 1.4rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .social-icon::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      top: 0;
+      left: -100%;
+      transform: skewX(-15deg);
+      transition: all 0.4s ease;
+    }
+    
+    .social-icon:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .social-icon:hover::after {
+      left: 120%;
+    }
+    
+    .facebook {
+      background-color: #1877f2;
+    }
+    
+    .whatsapp {
+      background-color: #25d366;
+    }
+    
+    .instagram {
+      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    }
+    
+    .twitter {
+      background-color: #1da1f2;
+    }
+    
+    .footer-content {
+      text-align: center;
+      padding: 0 1rem;
+    }
+    
+    .footer-content p {
+      margin: 0.5rem 0;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    
+    .made-in-india {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .made-in-india::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 14px;
+      background: linear-gradient(
+        to bottom,
+        #ff9933 0%,
+        #ff9933 33%,
+        white 33%,
+        white 66%,
+        #138808 66%,
+        #138808 100%
+      );
+      border-radius: 2px;
+    }
+    
+    .copyright {
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+    
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.8s ease forwards;
+    }
+    
+    .delay-1 { animation-delay: 0.2s; }
+    .delay-2 { animation-delay: 0.4s; }
+    .delay-3 { animation-delay: 0.6s; }
+    .delay-4 { animation-delay: 0.8s; }
+  </style>
+</head>
+
+<body>
+  <footer>
+    <div class="social-container">
+      <a href="https://www.facebook.com" 
+         class="social-icon facebook fade-in delay-1"
+         target="_blank"
+         aria-label="Facebook">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="https://api.whatsapp.com" 
+         class="social-icon whatsapp fade-in delay-2"
+         target="_blank"
+         aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+      </a>
+      <a href="https://instagram.com" 
+         class="social-icon instagram fade-in delay-3"
+         target="_blank"
+         aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="https://twitter.com" 
+         class="social-icon twitter fade-in delay-4"
+         target="_blank"
+         aria-label="Twitter">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </div>
+
+    <div class="footer-content">
+      <p class="made-in-india fade-in">Made in India</p>
+      <p class="copyright fade-in">Copyright &copy; 2025 | All Rights Reserved</p>
+    </div>
+  </footer>
+</body>
+</html>

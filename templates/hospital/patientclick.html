@@ -1,0 +1,96 @@
+{% extends 'hospital/homebase.html' %}
+
+{% block content %}
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+      <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+        <!-- Hero Header with Gradient Background -->
+        <div class="bg-primary bg-gradient text-white py-5 px-4 text-center">
+          <div class="d-inline-block bg-white rounded-circle p-3 mb-4">
+            <i class="fas fa-user-injured text-primary fa-3x"></i>
+          </div>
+          <h1 class="display-5 fw-bold mb-3">Welcome, Patient</h1>
+          <p class="lead mb-0">Your health journey starts here</p>
+        </div>
+        
+        <!-- Content Section -->
+        <div class="card-body p-4 p-md-5">
+          <div class="text-center mb-5">
+            <p class="fs-5 text-muted">Welcome to our advanced Hospital Management System. We're committed to providing you with seamless healthcare services.</p>
+            <div class="border-top my-4 mx-auto" style="width: 80px; border-color: rgba(0,0,0,0.1) !important;"></div>
+          </div>
+          
+          <!-- Features Grid -->
+          <div class="row g-4 mb-5">
+            <div class="col-md-4">
+              <div class="text-center p-3">
+                <div class="bg-light-primary bg-opacity-10 text-primary rounded-circle p-3 d-inline-block mb-3">
+                  <i class="fas fa-calendar-check fa-2x"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Easy Appointments</h5>
+                <p class="text-muted small">Book doctor appointments with just a few clicks</p>
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              <div class="text-center p-3">
+                <div class="bg-light-primary bg-opacity-10 text-primary rounded-circle p-3 d-inline-block mb-3">
+                  <i class="fas fa-file-medical fa-2x"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Medical Records</h5>
+                <p class="text-muted small">Access your complete medical history anytime</p>
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              <div class="text-center p-3">
+                <div class="bg-light-primary bg-opacity-10 text-primary rounded-circle p-3 d-inline-block mb-3">
+                  <i class="fas fa-comments fa-2x"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Doctor Communication</h5>
+                <p class="text-muted small">Secure messaging with your healthcare providers</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Action Buttons -->
+          <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+            <a href="/patientsignup" class="btn btn-primary btn-lg px-4 py-3 rounded-pill shadow-sm">
+              <i class="fas fa-user-plus me-2"></i> Register Account
+            </a>
+            <a href="/patientlogin" class="btn btn-outline-primary btn-lg px-4 py-3 rounded-pill">
+              <i class="fas fa-sign-in-alt me-2"></i> Login
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  :root {
+    --primary: #0d6efd;
+    --light-primary: rgba(13, 110, 253, 0.1);
+  }
+  
+  .bg-light-primary {
+    background-color: var(--light-primary);
+  }
+  
+  .bg-gradient {
+    background: linear-gradient(135deg, var(--primary), #0b5ed7);
+  }
+  
+  .rounded-4 {
+    border-radius: 1rem !important;
+  }
+  
+  .shadow-lg {
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+  }
+</style>
+
+{% endblock content %}

@@ -1,0 +1,129 @@
+{% extends 'hospital/admin_base.html' %}
+{% block content %}
+
+<style>
+  :root {
+    --primary-color: #4a6cf7;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #fd7e14;
+    --info-color: #17a2b8;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    --white: #ffffff;
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --transition: all 0.3s ease;
+  }
+
+  .dashboard-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  }
+
+  .appointments-card {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    transition: var(--transition);
+  }
+
+  .appointments-card:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .card-header {
+    padding: 1.25rem 1.5rem;
+    background: linear-gradient(135deg, var(--primary-color), #6a11cb);
+    color: var(--white);
+  }
+
+  .card-header h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  .appointments-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .appointments-table thead {
+    background-color: #f8f9fa;
+  }
+
+  .appointments-table th {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .appointments-table td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    font-size: 0.95rem;
+    color: var(--dark-color);
+  }
+
+  .appointments-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .appointments-table tr:hover td {
+    background-color: rgba(74, 108, 247, 0.03);
+  }
+
+  @media (max-width: 768px) {
+    .dashboard-container {
+      padding: 0 1rem;
+    }
+    
+    .appointments-table th,
+    .appointments-table td {
+      padding: 0.75rem;
+    }
+  }
+</style>
+
+<div class="dashboard-container">
+  <div class="appointments-card">
+    <div class="card-header">
+      <h3>Appointments</h3>
+    </div>
+    <div class="table-responsive">
+      <table class="appointments-table">
+        <thead>
+          <tr>
+            <th>Doctor Name</th>
+            <th>Patient Name</th>
+            <th>Description</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for a in appointments %}
+          <tr>
+            <td>{{a.doctorName}}</td>
+            <td>{{a.patientName}}</td>
+            <td>{{a.description}}</td>
+            <td>{{a.appointmentDate}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,217 @@
+{% extends 'hospital/admin_base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  :root {
+    --primary-color: #4a6cf7;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #fd7e14;
+    --info-color: #17a2b8;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    --white: #ffffff;
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --transition: all 0.3s ease;
+  }
+
+  .dashboard-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  }
+
+  .doctors-card {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    transition: var(--transition);
+  }
+
+  .doctors-card:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .card-header {
+    padding: 1.25rem 1.5rem;
+    background: linear-gradient(135deg, var(--primary-color), #6a11cb);
+    color: var(--white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .card-header h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .add-doctor-btn {
+    background-color: var(--white);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+
+  .add-doctor-btn:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    margin: 0;
+  }
+
+  .doctors-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .doctors-table thead {
+    background-color: #f8f9fa;
+  }
+
+  .doctors-table th {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .doctors-table td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    font-size: 0.95rem;
+    color: var(--dark-color);
+    vertical-align: middle;
+  }
+
+  .doctors-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .doctors-table tr:hover td {
+    background-color: rgba(74, 108, 247, 0.03);
+  }
+
+  .doctor-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    color: var(--white);
+    transition: var(--transition);
+  }
+
+  .edit-btn {
+    background-color: var(--info-color);
+    margin-right: 0.5rem;
+  }
+
+  .edit-btn:hover {
+    background-color: #138496;
+  }
+
+  .delete-btn {
+    background-color: var(--danger-color);
+  }
+
+  .delete-btn:hover {
+    background-color: #c82333;
+  }
+
+  .action-icon {
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 768px) {
+    .dashboard-container {
+      padding: 0 1rem;
+    }
+    
+    .doctors-table th,
+    .doctors-table td {
+      padding: 0.75rem;
+    }
+    
+    .card-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  }
+</style>
+
+<div class="dashboard-container">
+  <div class="doctors-card">
+    <div class="card-header">
+      <h3>Doctors</h3>
+      <a href="{% url 'admin-add-doctor' %}" class="add-doctor-btn">
+        <i class="fas fa-plus"></i> Add Doctor
+      </a>
+    </div>
+    <div class="table-responsive">
+      <table class="doctors-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Photo</th>
+            <th>Mobile</th>
+            <th>Address</th>
+            <th>Department</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for d in doctors %}
+          <tr>
+            <td>{{d.get_name}}</td>
+            <td>
+              <img 
+                src="{% static d.profile_pic.url %}" 
+                alt="Doctor" 
+                class="doctor-avatar"
+              >
+            </td>
+            <td>{{d.mobile}}</td>
+            <td>{{d.address}}</td>
+            <td>{{d.department}}</td>
+            <td>
+              <a href="{% url 'update-doctor' d.id %}" class="action-btn edit-btn" title="Edit">
+                <i class="fas fa-pencil-alt action-icon"></i>
+              </a>
+              <a href="{% url 'delete-doctor-from-hospital' d.id %}" class="action-btn delete-btn" title="Delete">
+                <i class="fas fa-trash action-icon"></i>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
